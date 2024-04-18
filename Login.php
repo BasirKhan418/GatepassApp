@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Login Form </title>
+    <link href=”https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css” rel=”stylesheet”>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   </head>
   <style>
     * {
@@ -15,7 +19,7 @@
     }
 
     body {
-      background: linear-gradient(90deg, #c7c5f4, #776bcc);
+     
     }
 
     .container {
@@ -155,7 +159,11 @@
       transform: scale(1.5);
     }
   </style>
-  <body>
+  <body class="bg-blue-200">
+    <?php 
+    require "components/_navbar.php";
+    ?>
+    <h1>Welcome </h1>
     <div class="container">
       <div class="screen">
         <div class="screen__content">
