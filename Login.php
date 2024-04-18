@@ -1,205 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Login Form </title>
-    <link href=”https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css” rel=”stylesheet”>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-  </head>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Raleway, sans-serif;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
+</head>
+<body>
+<?php
+    // require "components/_navbar.php";
+    require "components/_dbconnection.php";
+    if($_SERVER["REQUEST_METHOD"]=="POST"){
+     $email = $_POST['email'];
+    $password = $_POST['password'];
+     $sql = "select * from usersdata where email = '$email'";
+     $result = mysqli_query($conn,$sql);
+     $rows =mysqli_num_rows($result);
+     if($rows==1){
+    while($rows = mysqli_fetch_assoc($result)){
+        if(password_verify($password,$rows['password'])){
+            session_start();
+            $_SESSION['loggedin'] = true;
+            $_SESSION['email'] = $email;
+            echo '
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+     <strong>Success!</strong> You have been login successfully .
+     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+            ';
+            header("location: /gatepassapp/home.php");
+        }
+        else{
+            echo '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+     <strong>Error!</strong> Invalid Credentials .
+     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+            ';
+        }
     }
-
-    body {
-     
+     }
+     else{
+        echo '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+ <strong>Error!</strong> No user found with this email address .
+ <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+        ';
+     }
     }
-
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    .screen {
-      background: linear-gradient(90deg, #5d54a4, #7c78b8);
-      position: relative;
-      height: 600px;
-      width: 360px;
-      box-shadow: 0px 0px 24px #5c5696;
-    }
-
-    .screen__content {
-      z-index: 1;
-      position: relative;
-      height: 100%;
-    }
-
-    .screen__background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 0;
-      -webkit-clip-path: inset(0 0 0 0);
-      clip-path: inset(0 0 0 0);
-    }
-
-    .screen__background__shape {
-      transform: rotate(45deg);
-      position: absolute;
-    }
-
-    .screen__background__shape1 {
-      height: 520px;
-      width: 520px;
-      background: #fff;
-      top: -50px;
-      right: 120px;
-      border-radius: 0 72px 0 0;
-    }
-
-    .screen__background__shape2 {
-      height: 220px;
-      width: 220px;
-      background: #6c63ac;
-      top: -172px;
-      right: 0;
-      border-radius: 32px;
-    }
-
-    .screen__background__shape3 {
-      height: 540px;
-      width: 190px;
-      background: linear-gradient(270deg, #5d54a4, #6a679e);
-      top: -24px;
-      right: 0;
-      border-radius: 32px;
-    }
-
-    .screen__background__shape4 {
-      height: 400px;
-      width: 200px;
-      background: #7e7bb9;
-      top: 420px;
-      right: 50px;
-      border-radius: 60px;
-    }
-
-    .login {
-      width: 320px;
-      padding: 30px;
-      padding-top: 156px;
-    }
-
-    .login__field {
-      padding: 20px 0px;
-      position: relative;
-    }
-
-
-    .login__input {
-      border: none;
-      border-bottom: 2px solid #d1d1d4;
-      background: none;
-      padding: 10px;
-      padding-left: 24px;
-      font-weight: 700;
-      width: 75%;
-      transition: 0.2s;
-    }
-
-    .login__input:active,
-    .login__input:focus,
-    .login__input:hover {
-      outline: none;
-      border-bottom-color: #6a679e;
-    }
-
-    .login__submit {
-      background: #fff;
-      font-size: 14px;
-      margin-top: 30px;
-      padding: 16px 20px;
-      border-radius: 26px;
-      border: 1px solid #d4d3e8;
-      text-transform: uppercase;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      color: #4c489d;
-      box-shadow: 0px 2px 2px #5c5696;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .login__submit:active,
-    .login__submit:focus,
-    .login__submit:hover {
-      border-color: #6a679e;
-      outline: none;
-    }
-
-    .button__icon {
-      font-size: 24px;
-      margin-left: auto;
-      color: #7875b5;
-    }
-    .social-login__icon:hover {
-      transform: scale(1.5);
-    }
-  </style>
-  <body class="bg-blue-200">
-    <?php 
-    require "components/_navbar.php";
     ?>
-    <h1>Welcome </h1>
-    <div class="container">
-      <div class="screen">
-        <div class="screen__content">
-          <form class="login">
-            <div class="login__field">
-              <input
-                type="text"
-                class="login__input"
-                placeholder="User name / Email"
-              />
+    <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl my-16">
+        <div class="hidden bg-cover lg:block lg:w-1/2" style="background-image: url('/gatepassapp/images/login.jpg');"></div>
+    
+        <div class="w-full px-6 py-8 md:px-8 lg:w-1/2">
+            <div class="flex justify-center mx-auto">
+                <img class="w-auto h-7 sm:h-8" src="https://cutm.ac.in/wp-content/uploads/Centurion_University_of_Technology_and_Management_Logo.webp" alt="">
             </div>
-            <div class="login__field">
-              <input
-                type="password"
-                class="login__input"
-                placeholder="Password"
-              />
+    
+            <p class="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
+                Welcome back!
+            </p>
+    
+            <a href="#" class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <div class="px-4 py-2">
+                    <svg class="w-6 h-6" viewBox="0 0 40 40">
+                        <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
+                        <path d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z" fill="#FF3D00" />
+                        <path d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z" fill="#4CAF50" />
+                        <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#1976D2" />
+                    </svg>
+                </div>
+    
+                <span class="w-5/6 px-4 py-3 font-bold text-center">Sign in with Google</span>
+            </a>
+    
+            <div class="flex items-center justify-between mt-4">
+                <span class="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+    
+                <a href="#" class="text-xs text-center text-gray-500 uppercase dark:text-gray-400 hover:underline">or login
+                    with email</a>
+    
+                <span class="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
             </div>
-            <button class="button login__submit">Log In Now</button>
-          </form>
+           <form action="/gatepassapp/login.php" method="post">
+            <div class="mt-4">
+                <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="email">Email Address</label>
+                <input id="email" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="email" name= "email"/>
+            </div>
+    
+            <div class="mt-4">
+                <div class="flex justify-between">
+                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="password">Password</label>
+                    <a href="#" class="text-xs text-gray-500 dark:text-gray-300 hover:underline">Forget Password?</a>
+                </div>
+    
+                <input id="password" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="password" name="password" />
+            </div>
+           
+    
+    
+            <div class="mt-6">
+                <button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50" type="submit">
+                    Sign in
+                </button>
+            </div>
+</form>
+    
+            <div class="flex items-center justify-between mt-4">
+                <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+    
+                <a href="/register.html" class="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline">or sign up</a>
+    
+                <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+            </div>
         </div>
-        <div class="screen__background">
-          <span
-            class="screen__background__shape screen__background__shape4"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape3"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape2"
-          ></span>
-          <span
-            class="screen__background__shape screen__background__shape1"
-          ></span>
-        </div>
-      </div>
     </div>
-  </body>
+    <script>
+        let email=document.getElementById('email');
+        let password=document.getElementById('password');
+     
+    </script>
+</body>
 </html>
