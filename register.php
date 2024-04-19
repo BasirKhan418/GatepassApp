@@ -11,6 +11,14 @@
 <body>
 <?php
     require "components/_dbconnection.php";
+    use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Include PHPMailer autoloader
+require 'vendor/autoload.php';
+
+// Create a new PHPMailer instance
+$mail = new PHPMailer(true);
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $name = $_POST['name'];
         $email = $_POST['email'];
@@ -40,6 +48,62 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
          ';
+         $message = file_get_contents('accountcreate.html');
+$message = str_replace('{{username}}', $name, $message);
+$message = str_replace('{{email}}', $email, $message);
+         try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host = 'smtp-relay.brevo.com';  // Specify your SMTP server
+            $mail->SMTPAuth = true;
+            $mail->Username = 'specareenterprises@gmail.com'; // SMTP username
+            $mail->Password = 'XdIG2sMJZjyc6SWY'; // SMTP password
+            $mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587; // TCP port to connect to
+        
+            // Recipients
+            $mail->setFrom('account@gmsapp.com', 'Gatepass app'); // Sender's email and name
+            $mail->addAddress("$email", "$name"); // Recipient's email and name
+            // Content
+            $mail->isHTML(true); // Set email format to HTML
+            $mail->Subject = 'Welcome to GatePassApp Your Account is Ready to go';
+            $mail->Body ='<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+            <table width="100%" bgcolor="#f4f4f4" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <table align="center" bgcolor="#ffffff" style="max-width: 600px; margin: auto; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                            <tr>
+                                <td style="background-color: #007BFF; color: #ffffff; padding: 10px; text-align: center;">
+                                    <h1>Welcome to Our GMS</h1>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 20px; text-align: center;">
+                                    <p>Hi <strong>User Welcome to GatePassApp </strong>,</p>
+                                    <p>Thank you for creating an account with us. Your account has been successfully set up.</p>
+                                    <p>You can now access all the features available. We hope you enjoy your experience with us!</p>
+                                    <p>If you have any questions, feel free to <a href="mailto:khanbasir5555@gmail.com">contact us</a>.</p>
+                                    <p>Best Regards,<br>GMS powered by cutm</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 20px; font-size: 12px; text-align: center; color: #888;">
+                                    © 2024 gms.cutm.ac.in. All rights reserved.
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            </body>'; // Load HTML template
+            $mail->AltBody = 'This is the text-only body in case HTML email is not supported'; // Optional: plain text alternative
+        
+            // Send email
+            $mail->send();
+            echo 'Email sent successfully';
+        } catch (Exception $e) {
+            echo "Email sending failed: {$mail->ErrorInfo}";
+        }
          header("location: /gatepassapp/login.php");
               }
               else{
@@ -144,7 +208,7 @@
             <div class="flex items-center justify-between mt-4">
                 <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
     
-                <a href="" class="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline">or sign in</a>
+                <a href="/gatepassapp/login.php" class="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline">or sign in</a>
     
                 <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
             </div>
