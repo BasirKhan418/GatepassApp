@@ -24,11 +24,22 @@
           <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Work</a>
           <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Blog</a>
   
-          
-          <a class="flex items-center gap-x-2 font-medium text-white hover:text-gray-100 md:border-s md:border-gray-300 md:my-6 md:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500" href="/gatepassapp/login.php">
+          <?php
+          session_start();
+          if(!isset($_SESSION['loggedin'])){
+            echo ' <a class="flex items-center gap-x-2 font-medium text-white hover:text-gray-100 md:border-s md:border-gray-300 md:my-6 md:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500" href="/gatepassapp/login.php">
             <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             Log in
-          </a>
+          </a>';
+          }
+          else{
+            echo ' <a class="flex items-center gap-x-2 font-medium text-white hover:text-gray-100 md:border-s md:border-gray-300 md:my-6 md:ps-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500" href="/gatepassapp/components/logout.php">
+            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Log out
+          </a>';
+          }
+          ?>
+         
         </div>
       </div>
     </nav>

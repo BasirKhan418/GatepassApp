@@ -48,9 +48,6 @@ $mail = new PHPMailer(true);
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
          ';
-         $message = file_get_contents('accountcreate.html');
-$message = str_replace('{{username}}', $name, $message);
-$message = str_replace('{{email}}', $email, $message);
          try {
             // Server settings
             $mail->isSMTP();

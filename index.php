@@ -71,6 +71,8 @@
         window.open("https://cutm.ac.in/","_blank");
       }
     </script>
-    
+    <?php
+    require "components/_footer.php";
+    ?>
 </body>
 </html>
