@@ -13,6 +13,19 @@
         header("location: /gatepassapp/login.php");
     }
    require "components/user.php";
+   require "components/_dbconnection.php";
+   $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_num_rows($result);
+    $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]' and status = 'Approved'";
+    $result = mysqli_query($conn, $sql);
+    $approved = mysqli_num_rows($result);
+    $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]' and status = 'Pending'";
+    $result = mysqli_query($conn, $sql);
+    $pending = mysqli_num_rows($result);
+    $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]' and status = 'Rejected'";
+    $result = mysqli_query($conn, $sql);
+    $rejected = mysqli_num_rows($result);
     ?>
 <section class="absolute left-72 top-0">
 <div class="container items-center px-4 py-8 m-auto mt-5 sm:mt-10 md:mt-20">
@@ -22,17 +35,13 @@
         <div class="flex flex-row items-center justify-between px-4 py-4">
           <div class="flex mr-4">
             <span class="items-center px-4 py-4 m-auto bg-blue-200 rounded-full hover:bg-blue-300">
-              <svg xmlns="http://www.w3.org/2000/svg" class="items-center w-8 h-8 m-auto text-blue-500 hover:text-blue-600"
-                viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-              </svg>
+            <i class="fa-solid fa-ticket text-2xl text-blue-800"></i>
             </span>
           </div>
           <div class="flex-1 pl-1">
-            <div class="text-xl font-medium text-gray-600">6,427</div>
+            <div class="text-xl font-medium text-gray-600"><?php echo $row;?></div>
             <div class="text-sm text-gray-400 sm:text-base">
-              Active Sessions
+              All GatePasses
             </div>
           </div>
         </div>
@@ -54,15 +63,13 @@
         <div class="flex flex-row items-center justify-between px-4 py-4">
           <div class="flex mr-4">
             <span class="items-center px-4 py-4 m-auto bg-red-200 rounded-full hover:bg-red-300">
-              <svg xmlns="http://www.w3.org/2000/svg" class="items-center w-8 h-8 m-auto text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+            <i class="fa-solid fa-percent  text-2xl text-red-800"></i>
             </span>
           </div>
           <div class="flex-1 pl-1">
-            <div class="text-xl font-medium text-gray-600">78%</div>
+            <div class="text-xl font-medium text-gray-600"><?php echo ($approved/$row)*100;?>%</div>
             <div class="text-sm text-gray-400 sm:text-base">
-              Add to Cart
+              Approved Rate
             </div>
           </div>
         </div>
@@ -73,7 +80,7 @@
           <div class="flex flex-row items-center justify-between w-full py-px text-base text-gray-400">
             <p class="flex">change</p>
             <div class="flex items-center justify-between space-x-2">
-              <p>78%</p>
+              <p><?php echo ($approved/$row)*100;?>%</p>
             </div>
           </div>
         </div>
@@ -90,9 +97,9 @@
             </span>
           </div>
           <div class="flex-1 pl-1">
-            <div class="text-xl font-medium text-gray-600">563</div>
+            <div class="text-xl font-medium text-gray-600"><?php echo $pending;?></div>
             <div class="text-sm text-gray-400 sm:text-base">
-              Newsletter Sign Ups
+              Pending GatePasses
             </div>
           </div>
         </div>
@@ -103,7 +110,7 @@
           <div class="flex flex-row items-center justify-between w-full py-px text-base text-gray-400">
             <p class="flex">change</p>
             <div class="flex items-center justify-between space-x-2">
-              <p>86%</p>
+              <p><?php echo ($pending/$row)/100?>%</p>
             </div>
           </div>
         </div>
@@ -114,15 +121,14 @@
         <div class="flex flex-row items-center justify-between px-4 py-4">
           <div class="flex mr-4">
             <span class="items-center px-4 py-4 m-auto bg-green-200 rounded-full hover:bg-green-300">
-              <svg xmlns="http://www.w3.org/2000/svg" class="items-center w-8 h-8 m-auto text-green-500 hover:text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+             
+<i class="fa-solid fa-xmark text-2xl text-red-800"></i>
             </span>
           </div>
           <div class="flex-1 pl-1">
-            <div class="text-xl font-medium text-gray-600">&#36;56,474</div>
+            <div class="text-xl font-medium text-gray-600"><?php echo ($rejected/$row)*100;?>%</div>
             <div class="text-sm text-gray-400 sm:text-base">
-              Active Sessions
+              Rejection Rate
             </div>
           </div>
         </div>
@@ -133,7 +139,7 @@
           <div class="flex flex-row items-center justify-between w-full py-px text-base text-gray-400">
             <p class="flex">change</p>
             <div class="flex items-center justify-between space-x-2">
-              <p>79%</p>
+              <p><?php echo ($rejected/$row)*100;?>%</p>
             </div>
           </div>
         </div>
@@ -152,11 +158,11 @@
         <img class="object-cover object-top w-full" src='https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='Mountain'>
     </div>
     <div class="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
-        <img class="object-cover object-center h-32" src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='Woman looking front'>
+        <img class="object-cover object-center h-32" src='https://cutm.ac.in/wp-content/uploads/Centurion_University_of_Technology_and_Management_Logo.webp' alt='Woman looking front'>
     </div>
     <div class="text-center mt-2">
-        <h2 class="font-semibold">Sarah Smith</h2>
-        <p class="text-gray-500">Freelance Web Designer</p>
+        <h2 class="font-semibold"><?php echo $_SESSION['name'];?></h2>
+        <p class="text-gray-500"><?php echo $_SESSION['email'];?></p>
     </div>
     <ul class="py-4 mt-2 text-gray-700 flex items-center justify-around">
         <li class="flex flex-col items-center justify-around">
@@ -195,7 +201,7 @@
 
       <div>
         <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Build your portfolio</h3>
+          <h3 class="block font-bold text-gray-800 dark:text-white">Create Your Account</h3>
           <p class="text-gray-600 dark:text-neutral-400">The simplest way to keep your portfolio always up-to-date.</p>
         </div>
 
@@ -213,8 +219,8 @@
 
       <div>
         <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Get freelance work</h3>
-          <p class="text-gray-600 dark:text-neutral-400">New design projects delivered to your inbox each morning.</p>
+          <h3 class="block font-bold text-gray-800 dark:text-white">Get applied for gatepass</h3>
+          <p class="text-gray-600 dark:text-neutral-400">Apply for gatepass with in 1min .It is that much easy</p>
         </div>
 
         <p class="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold text-gray-800 dark:text-neutral-200">
@@ -231,8 +237,8 @@
 
       <div>
         <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Sell your goods</h3>
-          <p class="text-gray-600 dark:text-neutral-400">Get your goods in front of millions of potential customers with ease.</p>
+          <h3 class="block font-bold text-gray-800 dark:text-white">Approved/Rejected </h3>
+          <p class="text-gray-600 dark:text-neutral-400">Approved or rejection based on your reason anf guardian permission</p>
         </div>
 
         <p class="mt-3 inline-flex items-center gap-x-1 text-sm font-semibold text-gray-800 dark:text-neutral-200">

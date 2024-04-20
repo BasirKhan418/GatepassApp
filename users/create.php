@@ -3,44 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create a new Application - GMS APP</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
   <?php
   session_start();
+  if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
+    header("location: /gatepassapp/admin/adminlogin.php");
+}
   require "../components/_dbconnection.php";
   require "../components/user.php";
-  $email = $_SESSION['email'];
-  $sql = "SELECT * FROM usersdata WHERE email = '$email'";
-  $result= mysqli_query($conn,$sql);
-  $rows = mysqli_num_rows($result);
-  if($rows==1){
-      while($rows = mysqli_fetch_assoc($result)){
-          $name = $rows['name'];
-          $email = $rows['email'];
-          $phone = $rows['phone'];
-          $gnumber = $rows['gnumber'];
-          $branch = $rows['branch'];
-      }
-  }
-  if($_SERVER['REQUEST_METHOD']=="POST"){
-    $name= $_POST["name"];
-    $email= $_POST["email"];
-    $phone= $_POST["phone"];
-    $gnumber= $_POST["gnumber"];
-    $branch= $_POST["branch"];
-    $reason= $_POST["reason"];
-    $fromdate= $_POST["fromdate"];
-    $enddate= $_POST["enddate"];
-    echo $name . $fromdate . $enddate .$reason;
-  }
+  
   ?>
-  <section class="absolute left-72 top-0 ">
+  <section class="absolute left-72 top-6 ">
     <!-- Card Section -->
+    <?php
+    $email = $_SESSION['email'];
+    $sql = "SELECT * FROM usersdata WHERE email = '$email'";
+    $result= mysqli_query($conn,$sql);
+    $rows = mysqli_num_rows($result);
+    if($rows==1){
+        while($rows = mysqli_fetch_assoc($result)){
+            $name = $rows['name'];
+            $email = $rows['email'];
+            $phone = $rows['phone'];
+            $gnumber = $rows['gnumber'];
+            $branch = $rows['branch'];
+        }
+    }
+    if($_SERVER['REQUEST_METHOD']=="POST"){
+      $gatepassno = rand(1000,9999)."GMS";
+      $name= $_POST["name"];
+      $email= $_POST["email"];
+      $phone= $_POST["phone"];
+      $gnumber= $_POST["gnumber"];
+      $branch= $_POST["branch"];
+      $reason= $_POST["reason"];
+      $fromdate= $_POST["fromdate"];
+      $enddate= $_POST["enddate"];
+      $status= "Pending";
+      if($name=="" || $email=="" || $phone=="" || $gnumber=="" || $branch=="" || $reason=="" || $fromdate=="" || $enddate==""){
+          echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Error!</strong> Please fill all the fields.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+      }
+      else{
+          $sql = "INSERT INTO gatepassdata (name,email,phone,gnumber,fromdate,enddate,branch,reason,status,gatepassno) VALUES ('$name','$email','$phone','$gnumber','$fromdate','$enddate','$branch','$reason','$status','$gatepassno')";
+          $result = mysqli_query($conn,$sql);
+          if($result){
+              echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>Success!</strong> Your application has been submitted successfully.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+          }
+          else{
+              echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Error!</strong> Your application has not been submitted.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+          }
+      }
+    }
+    ?>
 <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <!-- Card -->
   <div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-neutral-900">
-    <form action="/gatepassapp/users/create.php">
+    <form action="/gatepassapp/users/create.php" method= "post">
       <!-- Section -->
       <div class="grid sm:grid-cols-12 gap-2 sm:gap-4 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-neutral-700 dark:first:border-transparent">
         <div class="sm:col-span-12">

@@ -20,9 +20,9 @@
       <div id="navbar-collapse-with-animation" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block">
         <div class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:items-center md:justify-end md:gap-y-0 md:gap-x-7 md:mt-0 md:ps-7 text-white">
           <a class="font-medium text-white md:py-6 dark:text-blue-500" href="/gatepassapp" aria-current="page">Home</a>
-          <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Account</a>
-          <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Work</a>
-          <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="#">Blog</a>
+          <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="/gatepassapp/userpanel.php">User</a>
+          <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="/gatepassapp/home.php">Admin</a>
+          <a class="font-medium text-white hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500" href="/gatepassapp/users/scan.php">Scan</a>
   
           <?php
           session_start();

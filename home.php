@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Panel | GMS APP</title>
     <link href=”https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css” rel=”stylesheet”>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,22 @@
       header("location: /gatepassapp/admin/adminlogin.php");
   }
    require "components/admin.php";
-  
+   require "components/_dbconnection.php";
+  $sql = "SELECT * FROM usersdata";
+  $result = mysqli_query($conn,$sql);
+  $user = mysqli_num_rows($result);
+  $sql = "SELECT * FROM gatepassdata";
+  $result = mysqli_query($conn,$sql);
+  $application = mysqli_num_rows($result);
+  $sql = "SELECT * FROM gatepassdata WHERE `status` = 'Approved'";
+  $result = mysqli_query($conn,$sql);
+  $approved = mysqli_num_rows($result);
+  $sql = "SELECT * FROM gatepassdata WHERE `status` = 'Pending'";
+  $result = mysqli_query($conn,$sql);
+  $pending = mysqli_num_rows($result);
+  $sql= "SELECT * FROM gatepassdata WHERE `status` = 'Rejected'";
+  $result = mysqli_query($conn,$sql);
+  $rejected = mysqli_num_rows($result);
    ?>
  <section class="absolute left-72 top-20">
 
@@ -30,8 +45,8 @@
                 </path>
             </svg></div>
         <div class="px-4 text-gray-700">
-            <h3 class="text-sm tracking-wider">Total Member</h3>
-            <p class="text-3xl">12,768</p>
+            <h3 class="text-sm tracking-wider">Total Users</h3>
+            <p class="text-3xl"><?php echo $user;?></p>
         </div>
     </div>
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
@@ -42,20 +57,15 @@
                 </path>
             </svg></div>
         <div class="px-4 text-gray-700">
-            <h3 class="text-sm tracking-wider">Total Post</h3>
-            <p class="text-3xl">39,265</p>
+            <h3 class="text-sm tracking-wider">Total Application</h3>
+            <p class="text-3xl"><?php echo $application;?></p>
         </div>
     </div>
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-        <div class="p-4 bg-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z">
-                </path>
-            </svg></div>
+        <div class="p-4 bg-indigo-400"><i class="fa-solid fa-table text-4xl text-white"></i></div>
         <div class="px-4 text-gray-700">
-            <h3 class="text-sm tracking-wider">Total Comment</h3>
-            <p class="text-3xl">142,334</p>
+            <h3 class="text-sm tracking-wider">Total Approval Rate</h3>
+            <p class="text-3xl"><?php echo floor(($approved/$application)*100);?>%</p>
         </div>
     </div>
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
@@ -66,8 +76,8 @@
                 </path>
             </svg></div>
         <div class="px-4 text-gray-700">
-            <h3 class="text-sm tracking-wider">Server Load</h3>
-            <p class="text-3xl">34.12%</p>
+            <h3 class="text-sm tracking-wider">Not Viewed (Pending)</h3>
+            <p class="text-3xl"><?php echo floor(($pending/$application)*100);?>% (<?php echo $pending;?>)</p>
         </div>
     </div>
 </div>
@@ -93,11 +103,10 @@
     </div>
     <div>
       <h6 class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased">
-        Line Chart
+        GMS - Application Data
       </h6>
       <p class="block max-w-sm font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
-        Visualize your data in a simple way using the
-        @material-tailwind/html chart plugin.
+        Visualize the gatePass data in a bar chart.
       </p>
     </div>
   </div>
@@ -111,7 +120,7 @@
 const chartConfig = {
   series: [
     {
-      name: "Sales",
+      name: "Applications",
       data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
     },
   ],
@@ -233,6 +242,36 @@ chart.render();
   </div>
 </div>
 </div>
+<section class="w-[20vw] h-[60vh]">
+  <!-- Card -->
+  <div class="flex flex-col gap-y-3 lg:gap-y-5 p-4 md:p-5 bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-800">
+      <div class="inline-flex justify-center items-center">
+        <span class="size-2 inline-block bg-red-500 rounded-full me-2"></span>
+        <span class="text-xs font-semibold uppercase text-gray-600 dark:text-neutral-400">Rejected Applications</span>
+      </div>
+
+      <div class="text-center">
+        <h3 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-800 dark:text-neutral-200">
+          <?php echo $rejected;?>
+        </h3>
+      </div>
+
+      <dl class="flex justify-center items-center divide-x divide-gray-200 dark:divide-neutral-800">
+        <dt class="pe-3">
+          <span class="text-red-600">
+            <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+            </svg>
+            <span class="inline-block text-sm">
+              <?php echo floor(($rejected/$application)*100)?>%
+            </span>
+          </span>
+          <span class="block text-sm text-gray-500 dark:text-neutral-500">In Percentage</span>
+        </dt>
+       
+      </dl>
+    </div>
+</section>
 </section>
 
  </section>
