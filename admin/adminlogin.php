@@ -24,6 +24,7 @@
             session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['email'] = $email;
+            $_SESSION['name'] = $rows['name'];
             echo '
             <div class="alert alert-success alert-dismissible fade show" role="alert">
      <strong>Success!</strong> You have been login successfully .

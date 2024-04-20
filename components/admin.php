@@ -88,7 +88,7 @@
 					</a>
 				</li>
 				<li class="rounded-sm hover:bg-white hover:text-blue-600 hover:rounded hover:font-bold">
-					<a rel="noopener noreferrer" href="#" class="flex items-center p-2 space-x-3 rounded-md ">
+					<a rel="noopener noreferrer" href="/gatepassapp/components/adminlogout.php" class="flex items-center p-2 space-x-3 rounded-md ">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current dark:text-gray-400">
 							<path d="M440,424V88H352V13.005L88,58.522V424H16v32h86.9L352,490.358V120h56V456h88V424ZM320,453.642,120,426.056V85.478L320,51Z"></path>
 							<rect width="32" height="64" x="256" y="232"></rect>
@@ -103,10 +103,10 @@
 		<img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-12 h-12 rounded-lg dark:bg-gray-500">
 		<div>
 			<h2 class="text-lg font-semibold"><?php
-      echo $_SESSION['email'];
+      echo $_SESSION['name'];
       ?></h2>
 			<span class="flex items-center space-x-1">
-				<a rel="noopener noreferrer" href="#" class="text-xs hover:underline dark:text-gray-400">View profile</a>
+				<a rel="noopener noreferrer" href="/gatepassapp/admin/adminprofile.php" class="text-xs hover:underline dark:text-gray-400">View profile</a>
 			</span>
 		</div>
 	</div>

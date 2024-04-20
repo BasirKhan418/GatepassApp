@@ -13,17 +13,14 @@
 <body>
    <?php
      session_start();
+     if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
+      header("location: /gatepassapp/admin/adminlogin.php");
+  }
    require "components/admin.php";
+  
    ?>
  <section class="absolute left-72 top-20">
- <?php
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
-    echo "You are not logged in. Please login to access this page";
-    header("location: /gatepassapp/login.php");
-}
 
-
-    ?>
     <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:px-8">
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
         <div class="p-4 bg-green-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none"

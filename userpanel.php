@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=\, initial-scale=1.0">
     <title>User Panel</title>
+    <script src="https://kit.fontawesome.com/dbad016fd6.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <?php
     session_start();
+    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
+        header("location: /gatepassapp/login.php");
+    }
    require "components/user.php";
     ?>
 <section class="absolute left-72 top-0">

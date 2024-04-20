@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link href=”https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css” rel=”stylesheet”>
-
+  <script src="https://kit.fontawesome.com/dbad016fd6.js" crossorigin="anonymous"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 
 </head>
 <body>
-<div class="flex flex-col p-3 w-60 bg-blue-600 text-white h-[120vh]">
+<div class="flex flex-col p-3 w-60 bg-blue-600 text-white h-[130vh]">
 	<div class="space-y-3">
 		<div class="flex items-center justify-between">
 			<h2 class="font-bold text-xl">Dashboard</h2>
@@ -36,19 +36,17 @@
 		<div class="flex-1">
 			<ul class="pt-2 pb-4 space-y-1 text-sm">
 				<li class="rounded-sm hover:bg-white hover:text-blue-600 hover:rounded hover:font-bold ">
-					<a rel="noopener noreferrer" href="/gatepassapp/home.php" class="flex items-center p-2 space-x-3 rounded-md active:bg-blue-800 active:text-white">
+					<a rel="noopener noreferrer" href="/gatepassapp/userpanel.php" class="flex items-center p-2 space-x-3 rounded-md active:bg-blue-800 active:text-white">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current dark:text-gray-400">
 							<path d="M469.666,216.45,271.078,33.749a34,34,0,0,0-47.062.98L41.373,217.373,32,226.745V496H208V328h96V496H480V225.958ZM248.038,56.771c.282,0,.108.061-.013.18C247.9,56.832,247.756,56.771,248.038,56.771ZM448,464H336V328a32,32,0,0,0-32-32H208a32,32,0,0,0-32,32V464H64V240L248.038,57.356c.013-.012.014-.023.024-.035L448,240Z"></path>
 						</svg>
 						<span>Home</span>
 					</a>
 				</li>
-				<li class="rounded-sm hover:bg-white hover:text-blue-600 hover:rounded hover:font-bold">
-					<a rel="noopener noreferrer" href="#" class="flex items-center p-2 space-x-3 rounded-md">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current dark:text-gray-400">
-							<path d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
-						</svg>
-						<span>Search</span>
+				<li class="rounded-sm hover:bg-blue-800  hover:rounded hover:font-bold">
+					<a rel="noopener noreferrer" href="/gatepassapp/users/create.php" class="flex items-center p-2 space-x-3 rounded-md">
+					<i class="fa-solid fa-plus text-white hover:text-blue-600"></i>
+						<span>Create</span>
 					</a>
 				</li>
 				<li class="rounded-sm hover:bg-white hover:text-blue-600 hover:rounded hover:font-bold">
@@ -88,7 +86,7 @@
 					</a>
 				</li>
 				<li class="rounded-sm hover:bg-white hover:text-blue-600 hover:rounded hover:font-bold">
-					<a rel="noopener noreferrer" href="#" class="flex items-center p-2 space-x-3 rounded-md ">
+					<a rel="noopener noreferrer" href="/gatepassapp/components/logout.php" class="flex items-center p-2 space-x-3 rounded-md ">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current dark:text-gray-400">
 							<path d="M440,424V88H352V13.005L88,58.522V424H16v32h86.9L352,490.358V120h56V456h88V424ZM320,453.642,120,426.056V85.478L320,51Z"></path>
 							<rect width="32" height="64" x="256" y="232"></rect>
@@ -103,10 +101,10 @@
 		<img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-12 h-12 rounded-lg dark:bg-gray-500">
 		<div>
 			<h2 class="text-lg font-semibold"><?php
-      echo $_SESSION['email'];
+      echo $_SESSION['name'];
       ?></h2>
 			<span class="flex items-center space-x-1">
-				<a rel="noopener noreferrer" href="#" class="text-xs hover:underline dark:text-gray-400">View profile</a>
+				<a rel="noopener noreferrer" href="/gatepassapp/users/profile.php" class="text-xs hover:underline dark:text-gray-400">View profile</a>
 			</span>
 		</div>
 	</div>
