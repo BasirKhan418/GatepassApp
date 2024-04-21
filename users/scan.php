@@ -232,8 +232,9 @@ require "../components/_dbconnection.php";
 	
 
 	?>
+	  <audio src="/gatepassapp/images/qrrightaudio.mp3" id= "audioplay"></audio>
 	<div class="container">
-	
+
 	<h1>Scan GatePass | GMS</h1>
 	<div class="section">
 		<div id="my-qr-reader">

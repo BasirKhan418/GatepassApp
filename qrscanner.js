@@ -1,3 +1,4 @@
+
 function domReady(fn) {
     if (
         document.readyState === "complete" ||
@@ -14,8 +15,11 @@ domReady(function () {
     // If found you qr code
     function onScanSuccess(decodeText, decodeResult) {
         // Handle on success condition with the decoded content
+        var audio = document.getElementById("audioplay");
 		console.log(`Scan result: ${decodeText}`, decodeResult);
-        const form = document.createElement('form');
+        audio.play();
+        setTimeout(() => {
+            const form = document.createElement('form');
         form.setAttribute('action', '/gatepassapp/users/scan.php');
         form.setAttribute('method', 'post');
 
@@ -31,6 +35,7 @@ domReady(function () {
 
         // Automatically submit the form
         form.submit();
+        }, 1000);
     }
  
     let htmlscanner = new Html5QrcodeScanner(

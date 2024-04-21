@@ -12,10 +12,10 @@
 <?php
     require "components/_dbconnection.php";
     use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\Exception;
 
 // Include PHPMailer autoloader
-require 'vendor/autoload.php';
+    require 'vendor/autoload.php';
 
 // Create a new PHPMailer instance
 $mail = new PHPMailer(true);

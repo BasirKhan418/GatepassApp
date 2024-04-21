@@ -20,12 +20,15 @@
     $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]' and status = 'Approved'";
     $result = mysqli_query($conn, $sql);
     $approved = mysqli_num_rows($result);
+   
     $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]' and status = 'Pending'";
     $result = mysqli_query($conn, $sql);
     $pending = mysqli_num_rows($result);
+  
     $sql = "SELECT * FROM `gatepassdata` WHERE email = '$_SESSION[email]' and status = 'Rejected'";
     $result = mysqli_query($conn, $sql);
     $rejected = mysqli_num_rows($result);
+    
     ?>
 <section class="absolute left-72 top-0">
 <div class="container items-center px-4 py-8 m-auto mt-5 sm:mt-10 md:mt-20">
@@ -67,7 +70,7 @@
             </span>
           </div>
           <div class="flex-1 pl-1">
-            <div class="text-xl font-medium text-gray-600"><?php echo ($approved/$row)*100;?>%</div>
+            <div class="text-xl font-medium text-gray-600"><?php if($row==0||$approved==0){echo '100';} else{echo ($approved/$row)*100;}?>%</div>
             <div class="text-sm text-gray-400 sm:text-base">
               Approved Rate
             </div>
@@ -80,7 +83,7 @@
           <div class="flex flex-row items-center justify-between w-full py-px text-base text-gray-400">
             <p class="flex">change</p>
             <div class="flex items-center justify-between space-x-2">
-              <p><?php echo ($approved/$row)*100;?>%</p>
+              <p><?php if($approved==0||$row==0){echo '100%';}else{echo ($approved/$row)*100;}?>%</p>
             </div>
           </div>
         </div>
@@ -110,7 +113,7 @@
           <div class="flex flex-row items-center justify-between w-full py-px text-base text-gray-400">
             <p class="flex">change</p>
             <div class="flex items-center justify-between space-x-2">
-              <p><?php echo ($pending/$row)/100?>%</p>
+              <p><?php if($pending==0||$row==0){echo'100';}else{echo ($pending/$row)*100;}?>%</p>
             </div>
           </div>
         </div>
@@ -126,7 +129,7 @@
             </span>
           </div>
           <div class="flex-1 pl-1">
-            <div class="text-xl font-medium text-gray-600"><?php echo ($rejected/$row)*100;?>%</div>
+            <div class="text-xl font-medium text-gray-600"><?php if($rejected==0||$row==0){echo '100';}else{echo ($rejected/$row)*100;}?>%</div>
             <div class="text-sm text-gray-400 sm:text-base">
               Rejection Rate
             </div>
@@ -139,7 +142,7 @@
           <div class="flex flex-row items-center justify-between w-full py-px text-base text-gray-400">
             <p class="flex">change</p>
             <div class="flex items-center justify-between space-x-2">
-              <p><?php echo ($rejected/$row)*100;?>%</p>
+              <p><?php if($rejected==0||$row==0){echo '100';}else{echo ($rejected/$row)*100;}?>%</p>
             </div>
           </div>
         </div>
